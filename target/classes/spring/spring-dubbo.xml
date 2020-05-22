@@ -1,0 +1,40 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.0.xsd
+        http://code.alibabatech.com/schema/dubbo        
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+    <!-- 配置Dubbo提供方 -->
+    <!-- 配置提供方的名称即服务名 -->
+    <dubbo:application name="babasport-service-product"/>
+    
+    <!-- 配置注册中心 -->
+    <!-- 配置集群的zookeeper机器，address中间用逗号隔开，端口号在zookeeper的config文件中查看；protocol：协议为zookeeper
+       <dubbo:registry address="192.168.1.1:2181,192.168.1.2:2182" protocol="zookeeper"/> -->
+    <dubbo:registry address="127.0.0.1:2181" protocol="zookeeper"/> 
+    
+    <!-- 设置端口号(服务提供方的), 若不设置则默认是20880 -->
+    <dubbo:protocol port="20880" name="dubbo"/>
+    
+    <!-- 暴露的接口 -->
+    <dubbo:service interface="com.jan.dubbo.TestService" ref="testService" timeout="120000"/>
+    
+    <!-- <bean id="testService" class="com.jan.dubbo.impl.TestServiceImpl"></bean> -->
+    
+</beans>
