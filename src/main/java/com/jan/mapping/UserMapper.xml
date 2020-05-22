@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jan.dao.UserDao">
+
+    <insert id="insert" parameterType="com.jan.entity.Users">
+        INSERT users (name, age) VALUES (#{name}, #{age})
+    </insert>
+
+    <update id="update" parameterType="com.jan.entity.Users">
+        UPDATE users set name=#{name}, age=#{age} where id=#{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM users where id=#{id}
+    </delete>
+
+    <select id="getById" parameterType="int" resultType="com.jan.entity.Users">
+        SELECT * FROM users WHERE id=#{id}
+    </select>
+
+    <select id="getAll" resultType="com.jan.entity.Users">
+        SELECT * FROM users
+    </select>
+    
+    <select id="getUser" resultType="com.jan.entity.Users">
+    	select * from users where name = #{name}
+    </select>
+
+</mapper>

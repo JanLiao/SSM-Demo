@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 0.�����ⲿ�����ļ� -->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!-- 1.��������Դ DriverManagerDataSource -->
+    <!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="username" value="${user}"/>
+        <property name="password" value="${password}"/>
+        <property name="driverClassName" value="${driverClass}"/>
+        <property name="url" value="${jdbcUrl}"/>
+    </bean> -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${driverClass}" />
+		<property name="jdbcUrl" value="${jdbcUrl}" />
+		<property name="user" value="${user}" />
+		<property name="password" value="${password}" />
+	</bean>
+
+    <!-- 2.mybatis��SqlSession����  SqlSessionFactoryBean -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
+        <property name="mapperLocations" value="classpath:com/jan/mapper/*.xml"></property>
+    </bean>
+
+    <!-- 3.mybatis�Զ�ɨ�����sqlӳ���ļ� MapperScannerConfigurer
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.luoxn28.test"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean> -->
+
+    <!-- 4.�������
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean> -->
+
+    <!-- 5.����ʽ���� transaction-manager���ö�������������
+    <tx:annotation-driven transaction-manager="transactionManager"/> -->
+
+    <!-- <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.jan.dao.UserDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean> -->
+    
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">    
+        <!--basePackage指定要扫描的包，在此包之下的映射器都会被搜索到。    
+         可指定多个包，包与包之间用逗号或分号分隔-->    
+        <property name="basePackage" value="com.jan.dao" />    
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>    
+        <!-- <property name="sqlSessionFactory" ref="sqlSessionFactory"/> -->
+    </bean> 
+    
+        <!-- Transaction manager for a single JDBC DataSource -->
+    <bean id="transactionManager"
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- 开启注解方式声明事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>
