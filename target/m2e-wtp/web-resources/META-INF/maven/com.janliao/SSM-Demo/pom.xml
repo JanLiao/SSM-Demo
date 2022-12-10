@@ -10,7 +10,7 @@
 	<url>http://maven.apache.org</url>
 	<!-- 用来设置版本号 -->
 	<properties>
-		<srping.version>4.0.2.RELEASE</srping.version>
+		<srping.version>6.0.0</srping.version>
 		<!-- <srping.version>4.1.6.RELEASE</srping.version> -->
 		<!-- <srping.version>4.3.8.RELEASE</srping.version> -->
 		<mybatis.version>3.2.8</mybatis.version>
